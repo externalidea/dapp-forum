@@ -1,4 +1,4 @@
-const contract_address = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+const contract_address = "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512"
 
 let web3;
 let contract;
@@ -7,24 +7,18 @@ let current_account;
 document.addEventListener("DOMContentLoaded", () =>{
     document.getElementById("connection_btn").addEventListener("click", connectWallet);
     document.getElementById("makePost_btn").addEventListener("click", makePost);
-    if(window.ethereum){
 
-        web3 = new Web3(window.ethereum);
-        contract = new web3.eth.Contract(c_abi,contract_address);
+    web3 = new Web3('http://127.0.0.1:8545');
+    contract = new web3.eth.Contract(c_abi,contract_address);
 
-        contract.events.PostCreated({fromBlock:"latest"})
-            .on("data", event =>{
-                console.log("PostsCleared: ", event.return.Values);
-                getPosts();
-            })
-
-        window.ethereum.on("accountsChanged", (accounts) => {
-            if(accounts.length > 0){
-                current_account = accounts[0];
-                enterToDapp();
-            }
+    contract.events.PostCreated({fromBlock:"latest"})
+        .on("data", event =>{
+            console.log("PostsCreated: ", event.returnValues);
+            getPosts();
+            loadPosts();
         })
-    }
+
+    connectWallet();
 })
 
 const connectWallet = async (e) => {
@@ -52,6 +46,11 @@ const enterToDapp = () => {
     account_lbl.textContent = current_account;
 
     document.getElementById("dapp").hidden = false;
+
+    const postsContainer = document.getElementById("post-card");
+    postsContainer.hidden = false;
+
+    loadPosts()
 }
 const makePost = async ()=>{
     try{
@@ -59,16 +58,14 @@ const makePost = async ()=>{
         const message = postText.value;
         if(!message) return alert("Message empty");
 
-        await contract.methods.createPost(message).send({ from:current_account });
+        await contract.methods.createPost(message).send({ from:current_account, gas: 1000000, gasPrice: 1000000000 });
         postText.value="";
-
-
-    getPost();//////////
     }
     catch(error){
         console.error("Create arror: ", error);
         alert("Create post error. Check logs.");
     }
+    loadPosts();
 }
 const getPost = async () => {
     try{
@@ -88,5 +85,26 @@ const getPosts = async () => {
     catch(error)
     {
         console.error("Get post error")
+    }
+}
+async function loadPosts(){
+    try{
+        const postsContainer = document.getElementById("post-card");
+        postsContainer.innerHTML="";
+
+        const posts = await contract.methods.getPosts().call();
+
+        posts.forEach((post, index) => {
+            const div = document.createElement("div");
+            div.classList.add("post-card");
+            div.innerHTML =`
+                <p>${post.message}</p>
+                <span>Author: ${post.author}</span>
+                <span>Date: ${new Date(Number(post.createdAt) * 1000).toLocaleDateString()}</span>
+            `;
+            postsContainer.appendChild(div);
+        })
+    } catch(error){
+        console.error("Load posts error: ", error);
     }
 }

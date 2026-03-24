@@ -23,7 +23,7 @@ contract Forum{
         owner = msg.sender;
     }
     function clearPosts() external{
-        require(owner != msg.sender, NotOwner(msg.sender));
+        require(owner == msg.sender, NotOwner(msg.sender));
         uint posts_q = posts.length;
         emit PostsCleared(block.timestamp, posts_q);
         delete posts;
