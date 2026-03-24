@@ -9,7 +9,7 @@
 .post-card {
     background: #fff;
     border: 2px solid #eee;
-    border-radius: 15px; /* Скругленные углы */
+    border-radius: 15px; 
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -25,7 +25,7 @@
 }
 
 .post-info {
-    display: block; /* Каждое поле с новой строки */
+    display: block; 
     font-size: 0.8em;
     color: #888;
     margin-bottom: 4px;
