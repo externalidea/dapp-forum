@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="index.css">    
     <title>WEB3 FORM</title>
 </head>
 <body>
@@ -14,6 +14,10 @@
         <textarea id ="post_text"></textarea>
         <br>
         <button id="makePost_btn">Make post</button>
+        <select id="author_filter">
+        <option value="all">Show All Posts</option>
+        <option value="me">Show Only My Posts</option>
+    </select>
     </div>
     <div id="post-card" class="post-card" hidden></div>
     <script src="https://cdn.jsdelivr.net/npm/web3@4.16.0/dist/web3.min.js"></script>

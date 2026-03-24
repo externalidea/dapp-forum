@@ -40,6 +40,50 @@ const c_abi = [
         {
           "indexed": true,
           "internalType": "uint256",
+          "name": "idx",
+          "type": "uint256"
+        }
+      ],
+      "name": "PostDeleted",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "postId",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "liker",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "bool",
+          "name": "isLiked",
+          "type": "bool"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "totalLikes",
+          "type": "uint256"
+        }
+      ],
+      "name": "PostLiked",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
           "name": "timestamp",
           "type": "uint256"
         },
@@ -52,6 +96,30 @@ const c_abi = [
       ],
       "name": "PostsCleared",
       "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "idx",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        }
+      ],
+      "name": "checkMyLike",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
     },
     {
       "inputs": [],
@@ -81,10 +149,28 @@ const c_abi = [
           "type": "uint256"
         }
       ],
+      "name": "deletePost",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "idx",
+          "type": "uint256"
+        }
+      ],
       "name": "getPost",
       "outputs": [
         {
           "components": [
+            {
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            },
             {
               "internalType": "string",
               "name": "message",
@@ -121,6 +207,11 @@ const c_abi = [
         {
           "components": [
             {
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            },
+            {
               "internalType": "string",
               "name": "message",
               "type": "string"
@@ -147,6 +238,19 @@ const c_abi = [
         }
       ],
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "idx",
+          "type": "uint256"
+        }
+      ],
+      "name": "toggleLike",
+      "outputs": [],
+      "stateMutability": "nonpayable",
       "type": "function"
     }
   ]
