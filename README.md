@@ -16,7 +16,7 @@ A full-stack decentralized social platform where messages are stored immutably o
 ## 📂 Project Structure
 - `/contracts` — Solidity source code (`Forum.sol`)
 - `/scripts` — Deployment scripts for Hardhat
-- `/frontend` — Web interface (`index.html`, `script.js`, `style.css`)
+- `/app` — Web interface (`index.html`, `script.js`, `style.css`)
 - `/artifacts` — Compiled contract ABIs
 
 ---
